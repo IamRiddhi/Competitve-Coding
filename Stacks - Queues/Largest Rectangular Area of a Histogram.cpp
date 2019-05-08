@@ -1,57 +1,45 @@
-#include <iostream>
 #include<bits/stdc++.h>
+#include<cmath>
 #include<climits>
+#define test ll t; cin>>t; while(t--)
+#define rep0(n) for(ll i=0;i<(n);i++)
+#define rep1(n) for(ll i=1;i<=(n);i++)
 using namespace std;
 typedef long long ll;
-#define rep(n) for(ll i=0;i<(n);i++)
-#define test ll t; cin>>t; while(t--)
-int main(void)
+ll mod = 1000000007;
+int main()
 {
     ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
     test
     {
-        ll i,popped,n,*a;
-        ll maximum=0,area;
+        ll n,*a;
         cin>>n;
         a= new ll[n];
-        rep(n)
+        rep0(n)
             cin>>a[i];
-        
         stack<ll> s;
-        s.push(0); //pushing first index into the stack.
-        
-        for(i=1;i<n;i++)
+        ll maxi = 0;
+        for(ll i=0;i<n;i++)
         {
-            if(a[i]>=a[s.top()])
-                s.push(i);
-            else
+            while(!s.empty() && a[i]<a[s.top()])
             {
-                while(!s.empty() && a[i]<a[s.top()])
-                {
-                    popped= s.top(); //popped is the bar whose area is to be calculated considering it to be the minimum bar.
-                    s.pop();
-                    if(!s.empty())
-                        area= a[popped] * (i-s.top()-1);
-                    else
-                        area= a[popped] * i;
-                    if(maximum<area)
-                        maximum=area;
-                }
-                s.push(i);
+                ll ind = s.top(); s.pop();
+                ll left = -1;
+                if(!s.empty())
+                    left = s.top();
+                maxi = max(maxi,a[ind]*(i-left-1));
             }
+            s.push(i);
         }
         while(!s.empty())
         {
-            popped= s.top();
-            s.pop();
-            if(!s.empty())
-                area= a[popped] * (i-s.top()-1);
+            ll ind = s.top(); s.pop();
+            if(s.empty())
+                maxi = max(maxi,a[ind]*n);
             else
-                area= a[popped] * (i);
-            if(maximum<area)
-                maximum=area;
+                maxi = max(maxi,a[ind]*(n-s.top()-1));
         }
-        cout<<maximum<<endl;
+        cout<<maxi<<endl;    
     }
-	return 0;
+    return 0;
 }
