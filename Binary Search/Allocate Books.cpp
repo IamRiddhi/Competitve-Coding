@@ -1,4 +1,4 @@
-bool satisfy(vector<int> &books, int students,long mid)
+bool satisfy(vector<int> &books, int students,long mid) // mid is the maximum we want to acheive
 {
     int booksInd = 0;
     int st = 0;
@@ -18,8 +18,11 @@ bool satisfy(vector<int> &books, int students,long mid)
                 st++;
         }
     }
-    if(booksInd < books.size())
+    if(booksInd < books.size()) // increase the maximum, with such less maximum we can't allocate all the books. 
         return false;
+    /* please note i am not checking whether all students are served or not because if all students are not served,that means maximum value
+    is too high. Therefore we need to decrease the maximum. Hence we are returing true because even if we allocated successfully,
+    we would have decreased our hi and we also know we have a solution within this. */
     return true;
 }
 int Solution::books(vector<int> &books, int students) {
